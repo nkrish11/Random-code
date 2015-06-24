@@ -35,7 +35,7 @@ public class LLOps {
 		
 	}
 	
-	public void print_List(){
+	public void printList(){
 		Node n = head;
 		while(n != null){
 			

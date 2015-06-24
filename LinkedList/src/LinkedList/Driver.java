@@ -10,14 +10,14 @@ public class Driver {
 			
 		}
 		
-		obj.print_List();
+		obj.printList();
 		
 		obj.deleteNode(0);
 		obj.deleteNode(2);
 		obj.deleteNode(3);
 		
 		
-		obj.print_List();
+		obj.printList();
 	}
 
 }
