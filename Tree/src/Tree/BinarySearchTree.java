@@ -107,6 +107,134 @@ public class BinarySearchTree {
 			System.out.print(current.getValue()+"  ");
 		}
 	}
+	
+	public Node search(Node current, int value){
+		if(value == current.getValue()){
+			return current;
+		}else if(value < current.getValue() && current.getLeft()!=null){
+			return this.search(current.getLeft(),value);
+			
+		}else if(value > current.getValue() && current.getRight()!=null){
+			return this.search(current.getRight(), value);
+			
+		}
+		
+		return null;
+		
+		
+	}
+
+	public Node getParent(Node current,Node child){
+
+		if(child == root || current == null){
+			return null;
+		}
+		if(current.getLeft()== child || current.getRight() == child){
+			return current;
+		}else if(current.getValue() < child.getValue()){
+			return this.getParent(current.getRight(), child);
+			
+		}else if(current.getValue()> child.getValue()){
+			return this.getParent(current.getLeft(), child);
+		}
+		
+		return null;
+	}
+
+
+	
+	
+	public void lookup(int value){
+		if(this.search(root, value)!=null){
+			System.out.println("Found");
+		}else{
+			System.out.println("Not Found");
+		}
+		
+		
+	}
+	
+	public Node findMinRight(Node node){
+		Node current = node.getRight();
+		while(current.getLeft() != null){
+			current = current.getLeft();
+		}
+		return current;
+	}
+	
+	public void delete(int value){
+		Node del = this.search(root,value);
+		
+		if(del == null){
+			System.out.println("Node not found");
+			return;
+		}
+		
+		Node parent = this.getParent(root,del);
+		
+		if(del == root){    // Case for root
+			Node minright = findMinRight(root);
+			Node parentmr = getParent(root, minright);
+			
+			if(parentmr.getLeft() == minright){
+				parentmr.setLeft(null);
+			}else{
+				parentmr.setRight(null);
+			}
+			minright.setLeft(root.getLeft());
+			minright.setRight(root.getRight());
+			
+			root = minright;
+			return;
+			
+		}else if(del.getLeft()==null && del.getRight()==null){ //Case for leaf node
+			
+			
+			if(parent.getLeft() == del){
+				parent.setLeft(null);
+			}else{
+				parent.setRight(null);
+			}
+			return;
+		}else if(del.getLeft()==null || del.getRight()==null){ //Case for the node having one child
+			if(parent.getLeft() == del){
+				if(del.getLeft() != null){
+					parent.setLeft(del.getLeft());
+				}else{
+					parent.setLeft(del.getRight());
+				}
+			}else{
+				if(del.getLeft() != null){
+					parent.setRight(del.getLeft());
+				}else{
+					parent.setRight(del.getRight());
+				}
+			}
+			return;
+		}else if(del.getLeft()!=null && del.getRight()!=null){ //Case for the node having two children
+			Node minright = findMinRight(del);
+			Node parentmr = getParent(root,minright);
+			if(parentmr.getLeft() == minright){
+				parentmr.setLeft(null);
+			}else{
+				parentmr.setRight(null);
+			}
+			minright.setLeft(del.getLeft());
+			minright.setRight(del.getRight());
+			if(parent.getLeft() == del){
+				parent.setLeft(minright);
+			}else{
+				parent.setRight(minright);
+			}
+			return;
+		}
+		
+		
+		
+		
+	}
+	
+	
 
 
 }
